@@ -1,0 +1,20 @@
+<jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="carton.fmy.com.yuanmanhua.fragment.HomeFragment">
+
+
+        <!--主页fragment 流布局展示所有漫画-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+
+</jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout >

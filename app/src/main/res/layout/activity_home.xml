@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="carton.fmy.com.yuanmanhua.activity.HomeActivity">
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+     >
+
+        <!--内容-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--标题栏容器-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#bdbdbd" />
+            </LinearLayout>
+            <!--存放fragemnt的容器-->
+            <FrameLayout
+                android:id="@+id/content_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                >
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <!--侧滑栏-->
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|bottom"
+            android:scrollbarThumbVertical="@android:color/transparent">
+
+            <LinearLayout
+                android:id="@+id/left_drawer"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0dp"
+                android:orientation="vertical">
+                <!-- Layout of Drawer -->
+            </LinearLayout>
+        </ScrollView>
+
+    </android.support.v4.widget.DrawerLayout>
+
+</android.support.design.widget.CoordinatorLayout>
