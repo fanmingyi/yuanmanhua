@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="carton.fmy.com.yuanmanhua.activity.HomeActivity">
 
     <android.support.v4.widget.DrawerLayout
@@ -39,26 +40,14 @@
             </FrameLayout>
         </LinearLayout>
 
-        <!--侧滑栏-->
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start|bottom"
-            android:scrollbarThumbVertical="@android:color/transparent">
+    <android.support.design.widget.NavigationView
+        android:layout_width="150dp"
 
-            <LinearLayout
-                android:id="@+id/left_drawer"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="0dp"
-                android:orientation="vertical">
-                <!-- Layout of Drawer -->
-            </LinearLayout>
-        </ScrollView>
-
+        android:id="@+id/navigation"
+        app:headerLayout="@layout/head_menu_item"
+        android:layout_gravity="left"
+        app:menu="@menu/menu_main"
+        android:layout_height="match_parent"/>
     </android.support.v4.widget.DrawerLayout>
 
 </android.support.design.widget.CoordinatorLayout>

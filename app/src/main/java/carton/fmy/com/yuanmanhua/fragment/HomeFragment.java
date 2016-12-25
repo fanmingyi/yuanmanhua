@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,6 +31,7 @@ import carton.fmy.com.yuanmanhua.bean.HomeBean;
 import carton.fmy.com.yuanmanhua.url.UrlHomeInterface;
 import carton.fmy.com.yuanmanhua.utils.LogUtils;
 import carton.fmy.com.yuanmanhua.utils.NetUtil;
+import carton.fmy.com.yuanmanhua.utils.SnackbarUtil;
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,6 +60,8 @@ public class HomeFragment extends Fragment {
     private WaveSwipeRefreshLayout swipeRefreshLayout;
     //适配器
     private HomeItemDragAdapter quickAdapter;
+    //一个fragment对应一个snackbar
+    private Snackbar snackbar;
 
     //用户点击的时候回调
     interface CallBackOnClick {
@@ -115,9 +119,6 @@ public class HomeFragment extends Fragment {
                 Fragment homeFragment = homeActivity.supportFragmentManager.findFragmentByTag("homeFragment");
                 //隐藏前面的fragement
                 fragmentTransaction.hide(homeFragment);
-                //创建传入数据
-                Bundle bundle = new Bundle();
-
                 //打开fragment 并关闭当前页面
                 fragmentTransaction.add(R.id.content_fragment, catalogueFragment).addToBackStack("catalogue").commit();
             }
@@ -141,7 +142,6 @@ public class HomeFragment extends Fragment {
         });
 
 
-
     }
 
     //初始化适配器
@@ -151,9 +151,13 @@ public class HomeFragment extends Fragment {
         gridLayoutManager = new GridLayoutManager(mActivity, 2, GridLayoutManager.VERTICAL, false);
 
         recycler_view.setLayoutManager(gridLayoutManager);
+
         quickAdapter = new HomeItemDragAdapter(homeBeen);
+
         quickAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+
         quickAdapter.isFirstOnly(false);
+
         recycler_view.setAdapter(quickAdapter);
 
         quickAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -172,9 +176,6 @@ public class HomeFragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
         itemTouchHelper.attachToRecyclerView(recycler_view);
 
-        // 开启拖拽
-        quickAdapter.enableDragItem(itemTouchHelper, R.id.iv_show, true);
-        quickAdapter.setOnItemDragListener(onItemDragListener);
 
         // 开启滑动删除
         quickAdapter.enableSwipeItem();
@@ -195,6 +196,7 @@ public class HomeFragment extends Fragment {
         Call<ArrayList<HomeBean>> arrayListCall = urlHomeInterface.loadPh("" + page++, limit);
 
         arrayListCall.enqueue(new Callback<ArrayList<HomeBean>>() {
+
 
             @Override
             public void onResponse(Call<ArrayList<HomeBean>> call, Response<ArrayList<HomeBean>> response) {
@@ -230,6 +232,9 @@ public class HomeFragment extends Fragment {
                 LogUtils.loge("tag", "下载错误:" + t.getMessage());
 
 
+                   SnackbarUtil.getImgSnackbar(getView(), "下载错误,重新刷新试试", Snackbar.LENGTH_SHORT, mActivity, -1).show();
+
+
                 //如果是下啦刷新 那么清楚数据重新加载
                 if (swipeRefreshLayout.isRefreshing()) {
                     //刷新完毕 关闭圈圈
@@ -249,19 +254,6 @@ public class HomeFragment extends Fragment {
 
     }
 
-    OnItemDragListener onItemDragListener = new OnItemDragListener() {
-        @Override
-        public void onItemDragStart(RecyclerView.ViewHolder viewHolder, int pos) {
-        }
-
-        @Override
-        public void onItemDragMoving(RecyclerView.ViewHolder source, int from, RecyclerView.ViewHolder target, int to) {
-        }
-
-        @Override
-        public void onItemDragEnd(RecyclerView.ViewHolder viewHolder, int pos) {
-        }
-    };
 
     OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
         @Override

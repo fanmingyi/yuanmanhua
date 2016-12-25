@@ -25,8 +25,7 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:paddingTop="10dp"
-                android:scaleType="fitCenter"
-                 />
+                android:scaleType="fitCenter" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -36,6 +35,7 @@
                 android:background="#fff">
 
                 <TextView
+
                     android:id="@+id/tv_show"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -51,7 +51,6 @@
 
 
     <TextView
-
         android:id="@+id/tv_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -123,6 +122,25 @@
         android:layout_toRightOf="@id/tv_status"
         android:text="123456"
         android:textSize="@dimen/catalogue_text_size" />
+
+
+    <Button
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/tv_colect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_ranking2"
+        android:layout_toRightOf="@id/card_vwiew"
+        android:gravity="center"
+        android:background="@drawable/collect_bg"
+        android:drawableLeft="@mipmap/collectitem"
+        android:text="点击收藏" />
+
     <!--顶部书名 和图片结束-->
 
 
@@ -164,21 +182,23 @@
     <FrameLayout
         android:id="@+id/mulu"
 
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/view_line"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="10dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="目录:"
             android:textSize="20sp" />
+
         <TextView
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="点击目录,或上下滑动选择即可阅读"
             android:layout_gravity="right|center_vertical"
+            android:text="点击目录,或上下滑动选择即可阅读"
             android:textSize="10sp" />
     </FrameLayout>
 
@@ -192,9 +212,9 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/view_linemulu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_linemulu"
+        android:layout_marginTop="5dp" />
 
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +28,7 @@ import carton.fmy.com.yuanmanhua.adapter.CataloguAdapter;
 import carton.fmy.com.yuanmanhua.bean.CatalogueBean;
 import carton.fmy.com.yuanmanhua.url.UrlCatalogueInterface;
 import carton.fmy.com.yuanmanhua.utils.NetUtil;
+import carton.fmy.com.yuanmanhua.utils.SnackbarUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -177,7 +179,7 @@ public class CatalogueFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CatalogueBean> call, Throwable t) {
-
+                SnackbarUtil.getImgSnackbar(getView(), "下载错误,返回重试看看", Snackbar.LENGTH_SHORT, mContext, -1).show();
             }
         });
     }

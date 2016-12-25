@@ -3,6 +3,7 @@ package carton.fmy.com.yuanmanhua.activity;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -26,8 +27,9 @@ public class HomeActivity extends BaseActivity  {
     //存放抽屉布局容器
     private DrawerLayout drawerLayout;
 
-    //底部侧滑菜单的容器
-    private LinearLayout left_drawer;
+    //导航栏
+    private NavigationView navigationView;
+
     //侧滑菜单监听
     private ActionBarDrawerToggle actionBarDrawerToggle;
     //主页homefragment
@@ -83,9 +85,7 @@ public class HomeActivity extends BaseActivity  {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
-                if (slideOffset > 0.6 && left_drawer.getChildCount() == 0){
 
-                }
 
             }
 
@@ -115,15 +115,14 @@ public class HomeActivity extends BaseActivity  {
         toolbar = ((Toolbar) findViewById(R.id.toolbar));
         //侧滑栏
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-
-        //底部侧滑菜单容器
-        left_drawer = ((LinearLayout) findViewById(R.id.left_drawer));
+        //导航栏
+        navigationView = ((NavigationView) findViewById(R.id.navigation));
+        //设置每个item显示原本自身颜色
+        navigationView.setItemIconTintList(null);
     }
 
     //初始化标题栏 toobar等
     private void initBar() {
-
-
         //设置toolbar为标题栏
         setSupportActionBar(toolbar);
         //设置显示旋转菜单
