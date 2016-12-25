@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class CatalogueFragment extends Fragment {
     //书名
     private TextView tv_show;
     //简介
-    private TextView tv_info;
+    private ExpandableTextView tv_info;
     //分类
     private TextView tv_classify2;
     //书籍信息
@@ -94,7 +95,7 @@ public class CatalogueFragment extends Fragment {
         //书名
         tv_show = ((TextView) inflateView.findViewById(R.id.tv_show));
         //简介
-        tv_info = ((TextView) inflateView.findViewById(R.id.info));
+        tv_info = ((ExpandableTextView) inflateView.findViewById(R.id.info));
         //分类
         tv_classify2 = ((TextView) inflateView.findViewById(R.id.tv_classify2));
         //获取RecycalView 用于显示目录

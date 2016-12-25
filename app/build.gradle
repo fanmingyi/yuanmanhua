@@ -43,4 +43,6 @@ dependencies {
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.6.7'
     testCompile 'junit:junit:4.12'
     compile 'com.github.recruit-lifestyle:WaveSwipeRefreshLayout:1.6'
+    compile 'com.ms-square:expandableTextView:0.1.4'
+
 }

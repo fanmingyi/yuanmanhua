@@ -125,20 +125,20 @@
 
 
     <Button
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="5dp"
         android:id="@+id/tv_colect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_ranking2"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp"
         android:layout_toRightOf="@id/card_vwiew"
-        android:gravity="center"
         android:background="@drawable/collect_bg"
         android:drawableLeft="@mipmap/collectitem"
+        android:gravity="center"
+        android:paddingBottom="3dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="3dp"
         android:text="点击收藏" />
 
     <!--顶部书名 和图片结束-->
@@ -162,14 +162,33 @@
         android:text="简介:"
         android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/info"
-        android:layout_width="wrap_content"
+    <com.ms.square.android.expandabletextview.ExpandableTextView
+  android:id="@+id/info"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/introduction"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:text="\u3000\u3000这是漫画的简介" />
+        app:maxCollapsedLines="2"
+        >
+        <TextView
+            android:id="@id/expandable_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:fontFamily="sans-serif-light"
+            android:textSize="16sp"
+            android:textColor="#666666" />
+
+        <ImageButton
+            android:id="@id/expand_collapse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_gravity="right|bottom"
+            android:background="@android:color/transparent"/>
+    </com.ms.square.android.expandabletextview.ExpandableTextView>
+
 
     <View
         android:id="@+id/view_line"
@@ -181,7 +200,6 @@
 
     <FrameLayout
         android:id="@+id/mulu"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/view_line"
@@ -194,7 +212,6 @@
             android:textSize="20sp" />
 
         <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
