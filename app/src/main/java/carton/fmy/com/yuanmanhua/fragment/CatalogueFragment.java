@@ -165,7 +165,7 @@ public class CatalogueFragment extends Fragment {
                     //设置简介
                     expand_text_view.setText(catalogueBean.getIntroduction());
                     //下载展示图
-                    Glide.with(mContext).load(catalogueBean.getIcon()).crossFade().into(iv_show);
+                    Glide.with(mContext).load(catalogueBean.getIcon()).crossFade().placeholder(R.mipmap.placeholder_item).into(iv_show);
 
                     //获取目录
                     chapterListBean = catalogueBean.getChapter();
