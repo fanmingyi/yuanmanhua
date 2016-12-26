@@ -157,8 +157,6 @@ public class ShowActivity extends AppCompatActivity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
 
-
-
             ImageView iv = new ImageView(mActivity);
             //设置背景色
             iv.setBackgroundColor(Color.CYAN);

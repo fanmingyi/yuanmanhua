@@ -93,7 +93,8 @@ public class HomeActivity extends BaseActivity  {
 
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         //给抽屉布局添加监听
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+//        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
     }
 
     @Override
