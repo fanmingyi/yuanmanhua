@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 24
+    buildToolsVersion '24.0.3'
     defaultConfig {
         applicationId "carton.fmy.com.yuanmanhua"
         minSdkVersion 15
@@ -10,6 +10,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        jackOptions{
+            enabled true
+        }
 
     }
     buildTypes {
@@ -19,6 +22,10 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 repositories {
     maven {
@@ -38,7 +45,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-
     compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.6.7'
@@ -47,5 +53,6 @@ dependencies {
     compile 'com.ms-square:expandableTextView:0.1.4'
     compile 'com.github.medyo:fancybuttons:1.8.3'
     compile 'org.adw.library:discrete-seekbar:1.0.1'
-
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
 }

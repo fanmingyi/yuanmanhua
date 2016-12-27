@@ -17,7 +17,7 @@ public class HomeBean {
      * state : 连载中
      * introduction : 没错！！我之所以会提出企划的原因就是——让这路人一样的加藤成为galgame里面的女主角！！！
      * type : 0
-     * advert :
+     *
      */
 
     private String id;
@@ -30,7 +30,7 @@ public class HomeBean {
     private String state;
     private String introduction;
     private String type;
-    private String advert;
+
 
     public String getId() {
         return id;
@@ -112,11 +112,5 @@ public class HomeBean {
         this.type = type;
     }
 
-    public String getAdvert() {
-        return advert;
-    }
 
-    public void setAdvert(String advert) {
-        this.advert = advert;
-    }
 }

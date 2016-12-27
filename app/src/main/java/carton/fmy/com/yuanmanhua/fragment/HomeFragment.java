@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.chad.library.adapter.base.listener.OnItemDragListener;
 import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 
 import java.util.ArrayList;
@@ -29,13 +28,12 @@ import carton.fmy.com.yuanmanhua.activity.HomeActivity;
 import carton.fmy.com.yuanmanhua.adapter.HomeItemDragAdapter;
 import carton.fmy.com.yuanmanhua.bean.HomeBean;
 import carton.fmy.com.yuanmanhua.url.UrlHomeInterface;
-import carton.fmy.com.yuanmanhua.utils.LogUtils;
 import carton.fmy.com.yuanmanhua.utils.NetUtil;
 import carton.fmy.com.yuanmanhua.utils.SnackbarUtil;
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -131,14 +129,11 @@ public class HomeFragment extends Fragment {
         //设置刷新的 圈的颜色
         swipeRefreshLayout.setColorSchemeColors(Color.CYAN, Color.GREEN, Color.RED);
         //设置刷新监听
-        swipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //下啦的时候禁止 上拉
-                quickAdapter.setEnableLoadMore(false);
-                //下载数据
-                LoadNetData();
-            }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            //下啦的时候禁止 上拉
+            quickAdapter.setEnableLoadMore(false);
+            //下载数据
+            LoadNetData();
         });
 
 
@@ -146,7 +141,6 @@ public class HomeFragment extends Fragment {
 
     //初始化适配器
     private void initAdapter() {
-
 
         gridLayoutManager = new GridLayoutManager(mActivity, 2, GridLayoutManager.VERTICAL, false);
 
@@ -160,15 +154,12 @@ public class HomeFragment extends Fragment {
 
         recycler_view.setAdapter(quickAdapter);
 
-        quickAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                //正在加载的时候禁止下啦
-                swipeRefreshLayout.setEnabled(false);
+        quickAdapter.setOnLoadMoreListener(() -> {
+            //正在加载的时候禁止下啦
+            swipeRefreshLayout.setEnabled(false);
 
-                //加载数据
-                LoadNetData();
-            }
+            //加载数据
+            LoadNetData();
         });
 
         //item 交互事件
@@ -179,6 +170,7 @@ public class HomeFragment extends Fragment {
 
         // 开启滑动删除
         quickAdapter.enableSwipeItem();
+
         quickAdapter.setOnItemSwipeListener(onItemSwipeListener);
 
 
@@ -193,47 +185,34 @@ public class HomeFragment extends Fragment {
         //下载第一页数据 接口
         UrlHomeInterface urlHomeInterface = NetUtil.getRetrofit().create(UrlHomeInterface.class);
 
-        Call<ArrayList<HomeBean>> arrayListCall = urlHomeInterface.loadPh("" + page++, limit);
+        Observable<ArrayList<HomeBean>> arrayListCall = urlHomeInterface.loadPh("" + page++, limit);
 
-        arrayListCall.enqueue(new Callback<ArrayList<HomeBean>>() {
-
-
-            @Override
-            public void onResponse(Call<ArrayList<HomeBean>> call, Response<ArrayList<HomeBean>> response) {
-                //下载成功返回 bean数据
-                //如果是上啦加载
-                if (quickAdapter.isLoading()) {
-                    //添加数据
-                    homeBeen.addAll(response.body());
-                    quickAdapter.addData(response.body());
-                    quickAdapter.loadMoreComplete();
-                    //上啦结束 下拉可用
-                    swipeRefreshLayout.setEnabled(true);
-                } else if (swipeRefreshLayout.isRefreshing()) {//如果是下啦刷新 那么清楚数据重新加载
-                    //清除数据
-                    homeBeen.clear();
-                    homeBeen.addAll(response.body());
-                    quickAdapter.setNewData(homeBeen);
-                    //下啦刷新 完毕上啦那么可用
-                    quickAdapter.setEnableLoadMore(true);
-                    //关闭下啦刷新
-                    swipeRefreshLayout.setRefreshing(false);
-                } else {
-                    homeBeen.clear();
-                    homeBeen.addAll(response.body());
-                    quickAdapter.setNewData(homeBeen);
-                }
-
-
+        arrayListCall.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe((t) -> {
+//            下载成功返回 bean数据
+            //如果是上啦加载
+            if (quickAdapter.isLoading()) {
+                //添加数据
+                homeBeen.addAll(t);
+                quickAdapter.addData(t);
+                quickAdapter.loadMoreComplete();
+                //上啦结束 下拉可用
+                swipeRefreshLayout.setEnabled(true);
+            } else if (swipeRefreshLayout.isRefreshing()) {//如果是下啦刷新 那么清楚数据重新加载
+                //清除数据
+                homeBeen.clear();
+                homeBeen.addAll(t);
+                quickAdapter.setNewData(homeBeen);
+                //下啦刷新 完毕上啦那么可用
+                quickAdapter.setEnableLoadMore(true);
+                //关闭下啦刷新
+                swipeRefreshLayout.setRefreshing(false);
+            } else {
+                homeBeen.clear();
+                homeBeen.addAll(t);
+                quickAdapter.setNewData(homeBeen);
             }
-
-            @Override
-            public void onFailure(Call<ArrayList<HomeBean>> call, Throwable t) {
-                LogUtils.loge("tag", "下载错误:" + t.getMessage());
-
-
-                   SnackbarUtil.getImgSnackbar(getView(), "下载错误,重新刷新试试", Snackbar.LENGTH_SHORT, mActivity, -1).show();
-
+        }, throwable -> {
+            SnackbarUtil.getImgSnackbar(getView(), "下载错误,重新刷新试试", Snackbar.LENGTH_SHORT, mActivity, -1).show();
 
                 //如果是下啦刷新 那么清楚数据重新加载
                 if (swipeRefreshLayout.isRefreshing()) {
@@ -248,7 +227,6 @@ public class HomeFragment extends Fragment {
                     swipeRefreshLayout.setEnabled(true);
                 }
 
-            }
         });
 
 
