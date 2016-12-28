@@ -1,0 +1,254 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/file_list_bg"
+    android:orientation="vertical"
+    android:paddingTop="5dp"
+ >
+    <!--顶部书籍信息和图片-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_vwiew"
+            android:layout_width="170dp"
+            android:layout_height="210dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="15dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_show"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:paddingTop="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/placeholder_item" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="#fff">
+
+                    <TextView
+
+                        android:id="@+id/tv_show"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxEms="14"
+                        android:maxLines="1"
+                        android:text="动漫标题" />
+                </FrameLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/tv_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/card_vwiew"
+            android:text="作者:XXXX"
+            android:textSize="@dimen/catalogue_text_size" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_author"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/card_vwiew"
+            android:text="状态:"
+            android:textSize="@dimen/catalogue_text_size" />
+
+        <TextView
+            android:id="@+id/tv_status2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_author"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/tv_status"
+            android:text="连载中"
+            android:textSize="@dimen/catalogue_text_size" />
+
+        <TextView
+            android:id="@+id/tv_classify1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_status"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/card_vwiew"
+            android:text="分类:"
+            android:textSize="@dimen/catalogue_text_size" />
+
+        <TextView
+            android:id="@+id/tv_classify2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_status"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/tv_status"
+            android:text="爱情/宅系/轻小说"
+            android:textSize="@dimen/catalogue_text_size" />
+
+        <TextView
+            android:id="@+id/tv_ranking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_classify2"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/card_vwiew"
+            android:text="排名:"
+            android:textSize="@dimen/catalogue_text_size" />
+
+        <TextView
+            android:id="@+id/tv_ranking2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_classify2"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/tv_status"
+            android:text="123456"
+            android:textSize="@dimen/catalogue_text_size" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/btn_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_ranking"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_ranking"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            app:fb_borderColor="#FFFFFF"
+            app:fb_borderWidth="1dp"
+            app:fb_defaultColor="#7ab800"
+            app:fb_focusColor="#9bd823"
+
+            app:fb_iconPosition="left"
+            app:fb_radius="30dp"
+            app:fb_text="收藏"
+            app:fb_textColor="#FFFFFF" />
+    </RelativeLayout>
+
+
+    <!--顶部书名 和图片结束-->
+
+    <!--划线-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="#6000" />
+
+    <!--开始简介-->
+    <TextView
+        android:id="@+id/introduction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="简介:"
+        android:textSize="20sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- sample xml -->
+        <com.ms.square.android.expandabletextview.ExpandableTextView
+
+            android:id="@+id/expand_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            expandableTextView:animDuration="200"
+            expandableTextView:maxCollapsedLines="2">
+
+            <TextView
+                android:id="@id/expandable_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@id/expand_collapse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:background="@android:color/transparent"
+                android:padding="10dp" />
+
+
+        </com.ms.square.android.expandabletextview.ExpandableTextView>
+
+    </ScrollView>
+
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/expand_text_view"
+        android:layout_marginTop="5dp"
+        android:background="#6000" />
+
+    <FrameLayout
+        android:id="@+id/mulu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_line"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="目录:"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:text="点击目录,或上下滑动选择即可阅读"
+            android:textSize="10sp" />
+    </FrameLayout>
+
+    <View
+        android:id="@+id/view_linemulu"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="#6000" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         />
+
+</LinearLayout>

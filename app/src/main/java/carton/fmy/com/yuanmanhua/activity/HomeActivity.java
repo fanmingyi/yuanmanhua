@@ -1,5 +1,6 @@
 package carton.fmy.com.yuanmanhua.activity;
 
+import android.app.Dialog;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,10 +11,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
+
 
 import carton.fmy.com.yuanmanhua.R;
 import carton.fmy.com.yuanmanhua.fragment.HomeFragment;
+import carton.fmy.com.yuanmanhua.utils.DialogUtil;
 
 /**
  * 主页面的Activity
@@ -41,7 +43,6 @@ public class HomeActivity extends BaseActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_home);
 
         //实例化控件
@@ -66,13 +67,14 @@ public class HomeActivity extends BaseActivity  {
         supportFragmentManager = getSupportFragmentManager();
         //提交
         supportFragmentManager.beginTransaction().add(R.id.content_fragment,homeFragment,"homeFragment").commit();
+
         supportFragmentManager.popBackStack();
+
     }
 
 
     //初始化侧滑菜单的每个条目
     private void initItem() {
-
 
         //抽屉布局开关
         actionBarDrawerToggle = new ActionBarDrawerToggle(HomeActivity.this,drawerLayout,toolbar,  R.string.drawer_open,R.string.drawer_close){

@@ -1,18 +1,16 @@
-package carton.fmy.com.yuanmanhua.fragment;
+package carton.fmy.com.yuanmanhua.activity;
 
 
-import android.app.Activity;
-import android.content.Context;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,20 +22,17 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 import java.util.List;
 
 import carton.fmy.com.yuanmanhua.R;
-import carton.fmy.com.yuanmanhua.activity.ShowActivity;
 import carton.fmy.com.yuanmanhua.adapter.CataloguAdapter;
 import carton.fmy.com.yuanmanhua.bean.CatalogueBean;
 import carton.fmy.com.yuanmanhua.url.UrlCatalogueInterface;
+import carton.fmy.com.yuanmanhua.utils.DialogUtil;
 import carton.fmy.com.yuanmanhua.utils.NetUtil;
 import carton.fmy.com.yuanmanhua.utils.SnackbarUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * 这个Fragment用于显示书籍目录
- */
-public class CatalogueFragment extends Fragment {
+public class IntroduceActivity extends BaseSwipeActivity {
     //书籍id
     String bookId;
     //展示图
@@ -54,8 +49,7 @@ public class CatalogueFragment extends Fragment {
     private TextView tv_classify2;
     //书籍信息
     CatalogueBean catalogueBean;
-    //上下文
-    Context mContext;
+
     // 用于显示目录
     private RecyclerView recycler_view;
     //显示目录的布局管理器
@@ -63,46 +57,46 @@ public class CatalogueFragment extends Fragment {
     //目录适配器
     private CataloguAdapter cataloguAdapter;
     //书籍目录信息
-    List<carton.fmy.com.yuanmanhua.bean.CatalogueBean.ChapterBean> chapterListBean;
+    List<CatalogueBean.ChapterBean> chapterListBean;
+    //正在加载的dialog
+    private Dialog dialog;
+    private Snackbar imgSnackbar;
 
-    public CatalogueFragment() {
-
-    }
-    public void setBookId(String bookId){
-        this.bookId = bookId;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_catalogue);
+        //初始化view
+        initView();
+        //初始化数据
+        initData();
+        //初始化网络下载
         initNet();
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-
+    private void initData() {
+        Intent intent = getIntent();
+        bookId = intent.getStringExtra("bookId");
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        //填充对象
-        View inflateView = inflater.inflate(R.layout.fragment_catalogue, container, false);
+    private void initView() {
         //展示图
-        iv_show = ((ImageView) inflateView.findViewById(R.id.iv_show));
+        iv_show = ((ImageView) findViewById(R.id.iv_show));
         //作者
-        tv_author = (TextView) inflateView.findViewById(R.id.tv_author);
+        tv_author = (TextView) findViewById(R.id.tv_author);
         //排名
-        tv_ranking = ((TextView) inflateView.findViewById(R.id.tv_ranking2));
+        tv_ranking = ((TextView) findViewById(R.id.tv_ranking2));
         //书名
-        tv_show = ((TextView) inflateView.findViewById(R.id.tv_show));
+        tv_show = ((TextView) findViewById(R.id.tv_show));
         //简介
-        expand_text_view = ((ExpandableTextView) inflateView.findViewById(R.id.expand_text_view));
+        expand_text_view = ((ExpandableTextView) findViewById(R.id.expand_text_view));
 
         //分类
-        tv_classify2 = ((TextView) inflateView.findViewById(R.id.tv_classify2));
+        tv_classify2 = ((TextView) findViewById(R.id.tv_classify2));
         //获取RecycalView 用于显示目录
-        recycler_view = ((RecyclerView) inflateView.findViewById(R.id.recycler_view));
+        recycler_view = ((RecyclerView) findViewById(R.id.recycler_view));
         //显示目录的布局管理器
-        linearLayoutManager = new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false);
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         //设置布局
         recycler_view.setLayoutManager(linearLayoutManager);
         //设置数据
@@ -111,15 +105,19 @@ public class CatalogueFragment extends Fragment {
         recycler_view.setAdapter(cataloguAdapter);
         //每个目录的点击事件
         recycler_view.addOnItemTouchListener(onItemChildClickListener);
-
-        return inflateView;
+        //正在加载的dialog
+        dialog = DialogUtil.getDialog(this);
+        dialog.show();
+        //当dialog 正在显示的时候证明数据没有加载完成 那么用户按下返回键那么直接finish
+        dialog.setOnKeyListener((dialogInterface, i, keyEvent) -> {
+            if (i== KeyEvent.KEYCODE_BACK) {
+              finish();
+                return  true;
+            }
+            return  false;
+        });
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mContext = activity;
-    }
 
     //每个目录的点击事件
     OnItemChildClickListener onItemChildClickListener = new OnItemChildClickListener() {
@@ -131,21 +129,22 @@ public class CatalogueFragment extends Fragment {
             //获取本书籍章节
             String number = catalogueBean.getChapter().get(i).getNumber();
             //跳转意图
-            Intent intent = new Intent(mContext, ShowActivity.class);
+            Intent intent = new Intent(IntroduceActivity.this, ShowActivity.class);
             //放入书籍
-            intent.putExtra("bookId",bookId);
+            intent.putExtra("bookId", bookId);
             //章节
-            intent.putExtra("number",number);
+            intent.putExtra("number", number);
             //传入第几话
-            intent.putExtra("title",catalogueBean.getChapter().get(i).getTitle());
+            intent.putExtra("title", catalogueBean.getChapter().get(i).getTitle());
 
             startActivity(intent);
         }
     };
+
     /**
      * 初始化网络
      */
-    public void initNet(){
+    public void initNet() {
 
         UrlCatalogueInterface urlCatalogueInterface = NetUtil.getRetrofit().create(UrlCatalogueInterface.class);
         Call<CatalogueBean> catalogueBeanClass = urlCatalogueInterface.get(bookId);
@@ -159,31 +158,35 @@ public class CatalogueFragment extends Fragment {
                     //设置书名
                     tv_show.setText(catalogueBean.getName());
                     //设置作者
-                    tv_author.setText("作者:"+catalogueBean.getAuthor());
+                    tv_author.setText("作者:" + catalogueBean.getAuthor());
                     //设置排名
                     tv_ranking.setText(catalogueBean.getRanking());
                     //设置简介
                     expand_text_view.setText(catalogueBean.getIntroduction());
                     //下载展示图
-                    Glide.with(mContext).load(catalogueBean.getIcon()).crossFade().placeholder(R.mipmap.placeholder_item).into(iv_show);
-
+                    Glide.with(IntroduceActivity.this).load(catalogueBean.getIcon()).crossFade().placeholder(R.mipmap.placeholder_item).into(iv_show);
                     //获取目录
                     chapterListBean = catalogueBean.getChapter();
-
                     //设置数据
                     cataloguAdapter.setNewData(chapterListBean);
-
                     //刷新
                     cataloguAdapter.notifyDataSetChanged();
-
+                    //关闭正在记载的动画
+                    if (dialog!=null&&dialog.isShowing()){
+                        dialog.dismiss();
+                    }
+                    if (imgSnackbar!=null&&imgSnackbar.isShown()){
+                        imgSnackbar.dismiss();
+                    }
                 }
+
             }
 
             @Override
             public void onFailure(Call<CatalogueBean> call, Throwable t) {
-                SnackbarUtil.getImgSnackbar(getView(), "下载错误,返回重试看看", Snackbar.LENGTH_SHORT, mContext, -1).show();
+                imgSnackbar = SnackbarUtil.getImgSnackbar(tv_show, "下载错误,返回重试看看", Snackbar.LENGTH_INDEFINITE, IntroduceActivity.this, -1);
+                imgSnackbar.show();
             }
         });
     }
-
 }

@@ -31,7 +31,7 @@ public class CataloguAdapter extends BaseQuickAdapter<CatalogueBean.ChapterBean,
         if ((index&1)!=1){
             baseViewHolder.getView(R.id.fl_root).setBackgroundColor(Color.argb(0x66,0xaa,0xaa,0xaa));
         }else {
-            baseViewHolder.getView(R.id.fl_root).setBackgroundColor(Color.WHITE);
+            baseViewHolder.getView(R.id.fl_root).setBackgroundColor(Color.argb(0x66,0xff,0xff,0xff));
         }
 
     }

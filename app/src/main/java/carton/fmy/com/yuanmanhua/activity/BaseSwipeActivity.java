@@ -14,10 +14,11 @@ import carton.fmy.com.yuanmanhua.MyAplication;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
+ * 支持侧滑
  * Created by 范明毅 on 2016/12/20.
  */
 
-public abstract class BaseActivity  extends AppCompatActivity{
+public abstract class BaseSwipeActivity extends SwipeBackActivity {
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);

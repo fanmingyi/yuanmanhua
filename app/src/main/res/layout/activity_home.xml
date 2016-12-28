@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="carton.fmy.com.yuanmanhua.activity.HomeActivity">
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-     >
+        android:orientation="vertical">
 
         <!--内容-->
         <LinearLayout
@@ -27,27 +26,26 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#bdbdbd" />
+                    android:background="@mipmap/titlebar_big" />
             </LinearLayout>
             <!--存放fragemnt的容器-->
             <FrameLayout
                 android:id="@+id/content_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                >
+                android:layout_weight="1">
 
             </FrameLayout>
         </LinearLayout>
 
-    <android.support.design.widget.NavigationView
-        android:layout_width="150dp"
-
-        android:id="@+id/navigation"
-        app:headerLayout="@layout/head_menu_item"
-        android:layout_gravity="left"
-        app:menu="@menu/menu_main"
-        android:layout_height="match_parent"/>
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:background="@mipmap/file_list_bg"
+            app:headerLayout="@layout/head_menu_item"
+            app:menu="@menu/menu_main" />
     </android.support.v4.widget.DrawerLayout>
 
 </android.support.design.widget.CoordinatorLayout>

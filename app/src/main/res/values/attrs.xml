@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>  
+    <declare-styleable name="lhloadingview">
+        <attr name="squareWidth" format="dimension" />
+        <attr name="squareSpacing" format="dimension" />
+        <attr name="squareColor" format="reference|color" />
+        <attr name="time" format="integer" />
+    </declare-styleable>
+</resources>

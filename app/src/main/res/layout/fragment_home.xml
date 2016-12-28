@@ -1,5 +1,5 @@
-<jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
+<jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
@@ -7,14 +7,14 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context="carton.fmy.com.yuanmanhua.fragment.HomeFragment">
 
 
-        <!--主页fragment 流布局展示所有漫画-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <!--主页fragment 流布局展示所有漫画-->
+    <carton.fmy.com.yuanmanhua.customview.MyRecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/file_list_bg">
 
-        </android.support.v7.widget.RecyclerView>
+    </carton.fmy.com.yuanmanhua.customview.MyRecyclerView>
 
 
-
-</jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout >
+</jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout>

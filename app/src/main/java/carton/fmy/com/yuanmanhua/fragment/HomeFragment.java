@@ -2,6 +2,8 @@ package carton.fmy.com.yuanmanhua.fragment;
 
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -25,14 +27,18 @@ import java.util.ArrayList;
 
 import carton.fmy.com.yuanmanhua.R;
 import carton.fmy.com.yuanmanhua.activity.HomeActivity;
+import carton.fmy.com.yuanmanhua.activity.IntroduceActivity;
 import carton.fmy.com.yuanmanhua.adapter.HomeItemDragAdapter;
 import carton.fmy.com.yuanmanhua.bean.HomeBean;
+import carton.fmy.com.yuanmanhua.customview.LHLoadingView;
 import carton.fmy.com.yuanmanhua.url.UrlHomeInterface;
+import carton.fmy.com.yuanmanhua.utils.DialogUtil;
 import carton.fmy.com.yuanmanhua.utils.NetUtil;
 import carton.fmy.com.yuanmanhua.utils.SnackbarUtil;
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
@@ -60,11 +66,8 @@ public class HomeFragment extends Fragment {
     private HomeItemDragAdapter quickAdapter;
     //一个fragment对应一个snackbar
     private Snackbar snackbar;
+    private Dialog dialog;
 
-    //用户点击的时候回调
-    interface CallBackOnClick {
-        void click(String id);
-    }
 
     public HomeFragment() {
 
@@ -79,12 +82,14 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         //获取根布局view
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         //使用此布局完成流布局
         recycler_view = ((RecyclerView) rootView.findViewById(R.id.recycler_view));
         //滑动开关
         swipeRefreshLayout = ((WaveSwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout));
+
         //初始化滑动
         initSwipe();
         //初始化适配器
@@ -103,22 +108,12 @@ public class HomeFragment extends Fragment {
         recycler_view.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                Toast.makeText(getActivity(), "你的内容", Toast.LENGTH_SHORT).show();
-                HomeActivity homeActivity = (HomeActivity) mActivity;
 
                 //----打开书籍简介---
-                //获取activity fragement管理器
-                FragmentTransaction fragmentTransaction = homeActivity.supportFragmentManager.beginTransaction();
-                //创建 漫画简介
-                CatalogueFragment catalogueFragment = new CatalogueFragment();
-                //放入数据
-                catalogueFragment.setBookId(homeBeen.get(i).getId());
-                //找到当前正在显示的fragement
-                Fragment homeFragment = homeActivity.supportFragmentManager.findFragmentByTag("homeFragment");
-                //隐藏前面的fragement
-                fragmentTransaction.hide(homeFragment);
-                //打开fragment 并关闭当前页面
-                fragmentTransaction.add(R.id.content_fragment, catalogueFragment).addToBackStack("catalogue").commit();
+                Intent intent = new Intent(mActivity, IntroduceActivity.class);
+                intent.putExtra("bookId", homeBeen.get(i).getId());
+                startActivity(intent);
+
             }
         });
     }
@@ -148,9 +143,10 @@ public class HomeFragment extends Fragment {
 
         quickAdapter = new HomeItemDragAdapter(homeBeen);
 
-        quickAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
-
+        quickAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
+        //设置每个动画是否只执行一次
         quickAdapter.isFirstOnly(false);
+
 
         recycler_view.setAdapter(quickAdapter);
 
@@ -176,11 +172,10 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private static final String TAG = "HomeFragment";
-
 
     //初始化一些数据
     private void LoadNetData() {
+
 
         //下载第一页数据 接口
         UrlHomeInterface urlHomeInterface = NetUtil.getRetrofit().create(UrlHomeInterface.class);
@@ -189,6 +184,7 @@ public class HomeFragment extends Fragment {
 
         arrayListCall.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe((t) -> {
 //            下载成功返回 bean数据
+
             //如果是上啦加载
             if (quickAdapter.isLoading()) {
                 //添加数据
@@ -212,21 +208,27 @@ public class HomeFragment extends Fragment {
                 quickAdapter.setNewData(homeBeen);
             }
         }, throwable -> {
-            SnackbarUtil.getImgSnackbar(getView(), "下载错误,重新刷新试试", Snackbar.LENGTH_SHORT, mActivity, -1).show();
+            snackbar = SnackbarUtil.getImgSnackbar(getView(), "下载错误,重新刷新试试", Snackbar.LENGTH_INDEFINITE, mActivity, -1);
+            snackbar.show();
 
-                //如果是下啦刷新 那么清楚数据重新加载
-                if (swipeRefreshLayout.isRefreshing()) {
-                    //刷新完毕 关闭圈圈
-                    swipeRefreshLayout.setRefreshing(false);
-                    quickAdapter.setEnableLoadMore(true);
-                }
-                //如果是上啦加载
-                if (quickAdapter.isLoading()) {
-                    //关闭上啦
-                    quickAdapter.loadMoreFail();
-                    swipeRefreshLayout.setEnabled(true);
-                }
+            //如果是下啦刷新 那么清楚数据重新加载
+            if (swipeRefreshLayout.isRefreshing()) {
+                //刷新完毕 关闭圈圈
+                swipeRefreshLayout.setRefreshing(false);
+                quickAdapter.setEnableLoadMore(true);
+            }
+            //如果是上啦加载
+            if (quickAdapter.isLoading()) {
+                //关闭上啦
+                quickAdapter.loadMoreFail();
+                swipeRefreshLayout.setEnabled(true);
+            }
 
+        }, () -> {
+
+            if (snackbar!=null&&snackbar.isShown()){
+                snackbar.dismiss();
+            }
         });
 
 

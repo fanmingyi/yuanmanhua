@@ -103,7 +103,7 @@ public class ShowActivity extends AppCompatActivity {
 
         @Override
         public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-
+            viewPager.setCurrentItem(seekBar.getProgress()-1);
         }
     };
 
