@@ -110,7 +110,7 @@ public class HomeActivity extends BaseActivity  {
                 //跳转市场去评价
                 case R.id.menu_market:
                     String mAddress ="market://details?id="+getPackageName();
-                    Intent marketIntent  = new Intent("android.intent.action.view");
+                    Intent marketIntent = new Intent("android.intent.action.VIEW");
                     marketIntent.setData(Uri.parse(mAddress));
                     startActivity(marketIntent);
                     return  true;

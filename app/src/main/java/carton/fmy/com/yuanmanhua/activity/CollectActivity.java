@@ -3,6 +3,7 @@ package carton.fmy.com.yuanmanhua.activity;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -20,6 +21,7 @@ import carton.fmy.com.yuanmanhua.R;
 import carton.fmy.com.yuanmanhua.adapter.CollectAdapter;
 import carton.fmy.com.yuanmanhua.customview.MyCollectRecyclerView;
 import carton.fmy.com.yuanmanhua.utils.CollectUtilt;
+import carton.fmy.com.yuanmanhua.utils.SnackbarUtil;
 
 /**
  * 展示收藏界面
@@ -108,7 +110,8 @@ public class CollectActivity extends BaseSwipeActivity {
         //收藏数据为空的时候显示
         emptyView = getLayoutInflater().inflate(R.layout.empty_loading, null);
 
-
+        //收藏
+        SnackbarUtil.getImgSnackbar(my_recycleView,"手指选择漫画,右滑动可以删除收藏", Snackbar.LENGTH_INDEFINITE,this,-1).show();
     }
 
     private OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
