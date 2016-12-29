@@ -1,6 +1,6 @@
 package carton.fmy.com.yuanmanhua.activity;
 
-import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,10 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-
 import carton.fmy.com.yuanmanhua.R;
 import carton.fmy.com.yuanmanhua.fragment.HomeFragment;
-import carton.fmy.com.yuanmanhua.utils.DialogUtil;
 
 /**
  * 主页面的Activity
@@ -34,8 +32,10 @@ public class HomeActivity extends BaseActivity  {
 
     //侧滑菜单监听
     private ActionBarDrawerToggle actionBarDrawerToggle;
+
     //主页homefragment
     private HomeFragment homeFragment;
+
     //Fragment管理器
     public FragmentManager supportFragmentManager;
 
@@ -97,6 +97,19 @@ public class HomeActivity extends BaseActivity  {
         //给抽屉布局添加监听
 //        drawerLayout.addDrawerListener(actionBarDrawerToggle);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+
+            switch (menuItem.getItemId()){
+                //如果按钮是收藏
+                case R.id.menu_collect:
+                    Intent intent = new Intent(HomeActivity.this,CollectActivity.class);
+                    startActivity(intent);
+                    return  true;
+
+            }
+
+            return false;});
     }
 
     @Override
@@ -122,6 +135,7 @@ public class HomeActivity extends BaseActivity  {
         navigationView = ((NavigationView) findViewById(R.id.navigation));
         //设置每个item显示原本自身颜色
         navigationView.setItemIconTintList(null);
+
     }
 
     //初始化标题栏 toobar等
@@ -130,6 +144,7 @@ public class HomeActivity extends BaseActivity  {
         setSupportActionBar(toolbar);
         //设置显示旋转菜单
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
 

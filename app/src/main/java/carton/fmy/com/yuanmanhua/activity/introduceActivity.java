@@ -2,13 +2,11 @@ package carton.fmy.com.yuanmanhua.activity;
 
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,9 +23,12 @@ import carton.fmy.com.yuanmanhua.R;
 import carton.fmy.com.yuanmanhua.adapter.CataloguAdapter;
 import carton.fmy.com.yuanmanhua.bean.CatalogueBean;
 import carton.fmy.com.yuanmanhua.url.UrlCatalogueInterface;
+import carton.fmy.com.yuanmanhua.utils.CollectUtilt;
 import carton.fmy.com.yuanmanhua.utils.DialogUtil;
 import carton.fmy.com.yuanmanhua.utils.NetUtil;
+import carton.fmy.com.yuanmanhua.utils.QuickClick;
 import carton.fmy.com.yuanmanhua.utils.SnackbarUtil;
+import mehdi.sakout.fancybuttons.FancyButton;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,7 +61,10 @@ public class IntroduceActivity extends BaseSwipeActivity {
     List<CatalogueBean.ChapterBean> chapterListBean;
     //正在加载的dialog
     private Dialog dialog;
+
     private Snackbar imgSnackbar;
+    //收藏按钮
+    private FancyButton btn_collect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,15 +72,39 @@ public class IntroduceActivity extends BaseSwipeActivity {
         setContentView(R.layout.activity_catalogue);
         //初始化view
         initView();
+        //点击初始化
+        initOnClick();
         //初始化数据
         initData();
         //初始化网络下载
         initNet();
+
+    }
+
+    private void initOnClick() {
+        btn_collect.setOnClickListener(view -> {
+            //防止用户连续点击
+            if (!QuickClick.quickClick()){
+                CharSequence text = btn_collect.getText();
+                if ("收藏".equals(text)){
+                    CollectUtilt.putCollect(IntroduceActivity.this,catalogueBean.getId());
+                    btn_collect.setText("已收藏");
+                }else{
+                    btn_collect.setText("收藏");
+                    CollectUtilt.removeCollect(IntroduceActivity.this,catalogueBean.getId());
+                }
+            }
+
+        });
     }
 
     private void initData() {
         Intent intent = getIntent();
         bookId = intent.getStringExtra("bookId");
+
+        if (CollectUtilt.isCollect(this,bookId)){
+            btn_collect.setText("已收藏");
+        }
     }
 
     private void initView() {
@@ -88,9 +116,10 @@ public class IntroduceActivity extends BaseSwipeActivity {
         tv_ranking = ((TextView) findViewById(R.id.tv_ranking2));
         //书名
         tv_show = ((TextView) findViewById(R.id.tv_show));
+        //收藏按钮
+        btn_collect = ((FancyButton) findViewById(R.id.btn_collect));
         //简介
         expand_text_view = ((ExpandableTextView) findViewById(R.id.expand_text_view));
-
         //分类
         tv_classify2 = ((TextView) findViewById(R.id.tv_classify2));
         //获取RecycalView 用于显示目录
@@ -105,6 +134,10 @@ public class IntroduceActivity extends BaseSwipeActivity {
         recycler_view.setAdapter(cataloguAdapter);
         //每个目录的点击事件
         recycler_view.addOnItemTouchListener(onItemChildClickListener);
+
+
+
+
         //正在加载的dialog
         dialog = DialogUtil.getDialog(this);
         dialog.show();
@@ -116,6 +149,9 @@ public class IntroduceActivity extends BaseSwipeActivity {
             }
             return  false;
         });
+
+
+
     }
 
 

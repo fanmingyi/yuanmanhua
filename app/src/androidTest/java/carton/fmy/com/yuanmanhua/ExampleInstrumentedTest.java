@@ -7,6 +7,9 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import carton.fmy.com.yuanmanhua.utils.CollectUtilt;
+
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.*;
 
 /**
@@ -18,9 +21,7 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("carton.fmy.com.yuanmanhua", appContext.getPackageName());
+        boolean b = CollectUtilt.putCollect(getInstrumentation().getContext(), "134");
     }
 }

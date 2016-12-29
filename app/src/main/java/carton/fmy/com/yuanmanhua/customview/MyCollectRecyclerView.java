@@ -16,17 +16,17 @@ import carton.fmy.com.yuanmanhua.R;
  * Created by Administrator on 2016/12/27.
  */
 
-public class MyRecyclerView extends RecyclerView {
+public class MyCollectRecyclerView extends RecyclerView {
 
     private Bitmap background;
 
-    public MyRecyclerView(Context context) {
+    public MyCollectRecyclerView(Context context) {
         super(context);
         background = BitmapFactory.decodeResource(getResources(),
                 R.mipmap.bookshelf_layer_center);
     }
 
-    public MyRecyclerView(Context context, @Nullable AttributeSet attrs) {
+    public MyCollectRecyclerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         background = BitmapFactory.decodeResource(getResources(),
                 R.mipmap.bookshelf_layer_center);
@@ -39,7 +39,7 @@ public class MyRecyclerView extends RecyclerView {
         View childAt = getChildAt(0);
 
         if (childAt!=null){
-            for (int y=0;y<getChildCount();y+=2){
+            for (int y=0;y<getChildCount();y++){
                 View childAt1 = getChildAt(y);
                 if (childAt1!=null){
                     Rect rect = new Rect(0,childAt1.getTop(),getWidth(),y+childAt.getHeight()+20+childAt1.getTop());

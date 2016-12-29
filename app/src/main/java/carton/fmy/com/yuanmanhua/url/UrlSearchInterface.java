@@ -1,13 +1,10 @@
 package carton.fmy.com.yuanmanhua.url;
 
-import java.util.ArrayList;
 
-import carton.fmy.com.yuanmanhua.bean.HomeBean;
-import carton.fmy.com.yuanmanhua.bean.ShowBean;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
+
 
 /**
  * asdasdasd

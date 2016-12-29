@@ -4,42 +4,32 @@ package carton.fmy.com.yuanmanhua.fragment;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 
 import java.util.ArrayList;
 
 import carton.fmy.com.yuanmanhua.R;
-import carton.fmy.com.yuanmanhua.activity.HomeActivity;
 import carton.fmy.com.yuanmanhua.activity.IntroduceActivity;
 import carton.fmy.com.yuanmanhua.adapter.HomeItemDragAdapter;
 import carton.fmy.com.yuanmanhua.bean.HomeBean;
-import carton.fmy.com.yuanmanhua.customview.LHLoadingView;
 import carton.fmy.com.yuanmanhua.url.UrlHomeInterface;
-import carton.fmy.com.yuanmanhua.utils.DialogUtil;
 import carton.fmy.com.yuanmanhua.utils.NetUtil;
 import carton.fmy.com.yuanmanhua.utils.SnackbarUtil;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.schedulers.Schedulers;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -158,16 +148,6 @@ public class HomeFragment extends Fragment {
             LoadNetData();
         });
 
-        //item 交互事件
-        ItemDragAndSwipeCallback itemDragAndSwipeCallback = new ItemDragAndSwipeCallback(quickAdapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
-        itemTouchHelper.attachToRecyclerView(recycler_view);
-
-
-        // 开启滑动删除
-        quickAdapter.enableSwipeItem();
-
-        quickAdapter.setOnItemSwipeListener(onItemSwipeListener);
 
 
     }
@@ -235,24 +215,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-    OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
-        @Override
-        public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {
-        }
 
-        @Override
-        public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {
-
-        }
-
-        @Override
-        public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
-        }
-
-        @Override
-        public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float v, float v1, boolean b) {
-
-        }
-    };
 
 }

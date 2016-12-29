@@ -11,7 +11,7 @@
             />
         <item
             app:showAsAction="always"
-            android:id="@+id/item2"
+            android:id="@+id/menu_collect"
             android:title="收藏"
             android:icon="@mipmap/collectitem"
             />

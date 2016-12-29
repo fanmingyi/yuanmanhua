@@ -1,7 +1,6 @@
 package carton.fmy.com.yuanmanhua.activity;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,17 +15,20 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
+
+import java.util.ArrayList;
+
 import carton.fmy.com.yuanmanhua.R;
 import carton.fmy.com.yuanmanhua.bean.ShowBean;
 import carton.fmy.com.yuanmanhua.url.UrlShowInterface;
 import carton.fmy.com.yuanmanhua.utils.NetUtil;
-import com.bumptech.glide.Glide;
-import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import java.util.ArrayList;
 
 /**
  * 展示漫画
@@ -293,7 +295,6 @@ public class ShowActivity extends AppCompatActivity {
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-
             container.removeView((View) object);
         }
     }
