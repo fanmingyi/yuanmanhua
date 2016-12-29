@@ -3,6 +3,7 @@ package carton.fmy.com.yuanmanhua.activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -106,7 +107,13 @@ public class HomeActivity extends BaseActivity  {
                     Intent intent = new Intent(HomeActivity.this,CollectActivity.class);
                     startActivity(intent);
                     return  true;
-
+                //跳转市场去评价
+                case R.id.menu_market:
+                    String mAddress ="market://details?id="+getPackageName();
+                    Intent marketIntent  = new Intent("android.intent.action.view");
+                    marketIntent.setData(Uri.parse(mAddress));
+                    startActivity(marketIntent);
+                    return  true;
             }
 
             return false;});
