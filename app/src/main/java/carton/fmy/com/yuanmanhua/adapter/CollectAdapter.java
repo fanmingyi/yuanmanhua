@@ -33,7 +33,7 @@ public class CollectAdapter extends BaseItemDraggableAdapter<String, BaseViewHol
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder,String bookId) {
-        if (catalogueBean==null){
+        if (catalogueBean==null||(catalogueBean!=null&&catalogueBean.getId()!=bookId)){
             initNet(baseViewHolder,bookId);
         }else {
             setData(baseViewHolder);
