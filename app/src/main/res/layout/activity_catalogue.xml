@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_author"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/card_vwiew"
             android:text="状态:"
             android:textSize="@dimen/catalogue_text_size" />
@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_author"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/tv_status"
             android:text="连载中"
             android:textSize="@dimen/catalogue_text_size" />
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_status"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/card_vwiew"
             android:text="分类:"
             android:textSize="@dimen/catalogue_text_size" />
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_status"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/tv_status"
             android:text="爱情/宅系/轻小说"
             android:textSize="@dimen/catalogue_text_size" />
@@ -115,7 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_classify2"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/card_vwiew"
             android:text="排名:"
             android:textSize="@dimen/catalogue_text_size" />
@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_classify2"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/tv_status"
             android:text="123456"
             android:textSize="@dimen/catalogue_text_size" />
@@ -136,7 +136,6 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/tv_ranking"
             android:layout_alignParentRight="true"
-
             android:layout_marginTop="10dp"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
@@ -191,7 +190,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-
                 android:textSize="16sp" />
 
             <ImageButton
@@ -201,7 +199,6 @@
                 android:layout_gravity="right|bottom"
                 android:background="@android:color/transparent"
                 android:padding="10dp" />
-
 
         </com.ms.square.android.expandabletextview.ExpandableTextView>
 

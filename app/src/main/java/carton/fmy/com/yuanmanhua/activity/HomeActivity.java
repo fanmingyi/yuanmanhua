@@ -114,6 +114,11 @@ public class HomeActivity extends BaseActivity  {
                     marketIntent.setData(Uri.parse(mAddress));
                     startActivity(marketIntent);
                     return  true;
+                //如果按钮是点击分类完结类型
+                default:
+                    Intent classifyIntent = new Intent(HomeActivity.this,ClassifyActivity.class);
+                    classifyIntent.putExtra("type",menuItem.getItemId());
+                    startActivity(classifyIntent);
             }
 
             return false;});

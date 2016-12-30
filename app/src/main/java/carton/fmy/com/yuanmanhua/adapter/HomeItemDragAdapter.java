@@ -28,6 +28,7 @@ public class HomeItemDragAdapter extends BaseItemDraggableAdapter<HomeBean, Base
 
         //添加漫画的icon
         Glide.with(mContext).load(item.getIcon()).crossFade().placeholder(R.mipmap.placeholder_item).into((ImageView) helper.getView(R.id.iv_show));
+
     }
 
 

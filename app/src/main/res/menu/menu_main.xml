@@ -1,37 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <group android:id="@+id/home">
         <item
             android:id="@+id/item1"
-            app:showAsAction="always"
-            android:title="主页"
             android:icon="@mipmap/homeitem"
-            />
+            android:title="主页"
+            app:showAsAction="always" />
         <item
-            app:showAsAction="always"
             android:id="@+id/menu_collect"
-            android:title="收藏"
             android:icon="@mipmap/collectitem"
-            />
+            android:title="收藏"
+            app:showAsAction="always" />
 
-    <item
-        app:showAsAction="never"
-        android:id="@+id/item3"
-        android:title="搜索"
-        android:icon="@mipmap/searcheitem"
-        />
-    <item
-        app:showAsAction="never"
-        android:id="@+id/item4"
-        android:title="分类"
-        android:icon="@mipmap/kindleitem"
-        />
-    <item
-        app:showAsAction="never"
-        android:id="@+id/menu_market"
-        android:title="评价"
-        android:icon="@mipmap/markeitem"
-        />
+        <item
+            android:id="@+id/item3"
+            android:icon="@mipmap/searcheitem"
+            android:title="搜索"
+            app:showAsAction="never" />
+
+    </group>
+
+
+    <group android:id="@+id/marke">
+        <item
+            android:id="@+id/menu_market"
+            android:icon="@mipmap/markeitem"
+            android:title="评价"
+            app:showAsAction="never" />
+
+    </group>
+    <group android:id="@+id/classify"
+
+        >
+
+        <item android:title="分类">
+            <menu>
+
+                <item
+                    android:id="@+id/menu_classify_end"
+                    android:icon="@mipmap/tm"
+                    android:title="完结"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_color"
+                    android:icon="@mipmap/tm"
+                    android:title="彩漫"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_adventure"
+                    android:icon="@mipmap/tm"
+                    android:title="冒险"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_funny"
+                    android:icon="@mipmap/tm"
+                    android:title="搞笑"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_love"
+                    android:icon="@mipmap/tm"
+                    android:title="爱情"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_detective"
+                    android:icon="@mipmap/tm"
+                    android:title="侦探"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_athletics"
+                    android:icon="@mipmap/tm"
+                    android:title="竞技"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_mp"
+                    android:icon="@mipmap/tm"
+                    android:title="魔法"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_supernatural"
+                    android:icon="@mipmap/tm"
+                    android:title="神鬼"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_schoolyard"
+                    android:icon="@mipmap/tm"
+                    android:title="校园"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_magic"
+                    android:icon="@mipmap/tm"
+                    android:title="魔幻"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_four"
+                    android:icon="@mipmap/tm"
+                    android:title="四格"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_live"
+                    android:icon="@mipmap/tm"
+                    android:title="生活"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_txl"
+                    android:icon="@mipmap/tm"
+                    android:title="百合"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_happy"
+                    android:icon="@mipmap/tm"
+                    android:title="欢快"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_suspense"
+                    android:icon="@mipmap/tm"
+                    android:title="悬疑"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_jy"
+                    android:icon="@mipmap/tm"
+                    android:title="基友"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_wrestle"
+                    android:icon="@mipmap/tm"
+                    android:title="格斗"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_grapple"
+                    android:icon="@mipmap/tm"
+                    android:title="科幻"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_cure"
+                    android:icon="@mipmap/tm"
+                    android:title="治愈"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/menu_classify_north"
+                    android:icon="@mipmap/tm"
+                    android:actionLayout="@layout/activity_test"
+                    android:title="东方"
+
+                     />
+                <item
+                    android:id="@+id/menu_classify_athor"
+                    android:icon="@mipmap/tm"
+                    android:title="其他"
+                    app:showAsAction="collapseActionView" />
+
+            </menu>
+
+
+        </item>
+
+    </group>
+
 </menu>

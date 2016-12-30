@@ -155,8 +155,6 @@ public class HomeFragment extends Fragment {
 
     //初始化一些数据
     private void LoadNetData() {
-
-
         //下载第一页数据 接口
         UrlHomeInterface urlHomeInterface = NetUtil.getRetrofit().create(UrlHomeInterface.class);
 

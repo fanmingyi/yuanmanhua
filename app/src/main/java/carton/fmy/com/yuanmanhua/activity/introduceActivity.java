@@ -50,6 +50,8 @@ public class IntroduceActivity extends BaseSwipeActivity {
     private TextView tv_classify2;
     //书籍信息
     CatalogueBean catalogueBean;
+    //连载状态
+    TextView tv_status2;
 
     // 用于显示目录
     private RecyclerView recycler_view;
@@ -65,6 +67,7 @@ public class IntroduceActivity extends BaseSwipeActivity {
     private Snackbar imgSnackbar;
     //收藏按钮
     private FancyButton btn_collect;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +111,8 @@ public class IntroduceActivity extends BaseSwipeActivity {
     }
 
     private void initView() {
+        //连载状态
+        tv_status2 = ((TextView) findViewById(R.id.tv_status2));
         //展示图
         iv_show = ((ImageView) findViewById(R.id.iv_show));
         //作者
@@ -134,7 +139,6 @@ public class IntroduceActivity extends BaseSwipeActivity {
         recycler_view.setAdapter(cataloguAdapter);
         //每个目录的点击事件
         recycler_view.addOnItemTouchListener(onItemChildClickListener);
-
 
 
 
@@ -197,8 +201,12 @@ public class IntroduceActivity extends BaseSwipeActivity {
                     tv_author.setText("作者:" + catalogueBean.getAuthor());
                     //设置排名
                     tv_ranking.setText(catalogueBean.getRanking());
+                    //设置是连载还是完结
+                    tv_status2.setText(catalogueBean.getState());
+
                     //设置简介
-                    expand_text_view.setText(catalogueBean.getIntroduction());
+                    expand_text_view.setText
+                            (catalogueBean.getIntroduction());
                     //下载展示图
                     Glide.with(IntroduceActivity.this).load(catalogueBean.getIcon()).crossFade().placeholder(R.mipmap.placeholder_item).into(iv_show);
                     //获取目录

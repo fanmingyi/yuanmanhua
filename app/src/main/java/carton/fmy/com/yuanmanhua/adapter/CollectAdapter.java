@@ -49,6 +49,8 @@ public class CollectAdapter extends BaseItemDraggableAdapter<String, BaseViewHol
         baseViewHolder.setText(R.id.tv_author,"作者:" + catalogueBean.getAuthor());
         //设置排名
         baseViewHolder.setText(R.id.tv_ranking2, catalogueBean.getRanking());
+        //设置是连载还是完结
+        baseViewHolder.setText(R.id.tv_status2, catalogueBean.getState());
         //下载展示图
         Glide.with(mContext).load(catalogueBean.getIcon()).crossFade().placeholder(R.mipmap.placeholder_item).into((ImageView) baseViewHolder.getView(R.id.iv_show));
        //添加点击事件

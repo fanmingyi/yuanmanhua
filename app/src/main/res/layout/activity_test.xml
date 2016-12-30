@@ -1,38 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_test"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    >
 
-    tools:context="carton.fmy.com.yuanmanhua.activity.TestActivity">
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="在ActionBar上添加UI组件"
+        android:layout_centerInParent="true"
+        />
 
-    </android.support.v7.widget.RecyclerView>
-    <SlidingDrawer
-
-        android:id="@+id/slidingDrawer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:content="@+id/allApps"
-        android:handle="@+id/imageViewIcon"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/imageViewIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/btn_local"
-            android:text="本地"
-            android:textSize="18dp" />
-
-        <LinearLayout
-            android:id="@+id/allApps"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#f0f"
-            android:orientation="vertical"></LinearLayout>
-    </SlidingDrawer>
 </RelativeLayout>
