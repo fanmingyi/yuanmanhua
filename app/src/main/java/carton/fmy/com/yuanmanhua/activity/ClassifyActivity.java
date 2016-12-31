@@ -9,9 +9,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
 import android.view.View;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+
 import java.util.ArrayList;
+
 import carton.fmy.com.yuanmanhua.R;
 import carton.fmy.com.yuanmanhua.adapter.ClassifyAdapter;
 import carton.fmy.com.yuanmanhua.bean.HomeBean;
@@ -46,6 +49,10 @@ public class ClassifyActivity extends BaseSwipeActivity {
     private ArrayList<HomeBean> dataSet;
     //正在加载的dialog
     private Dialog dialog;
+    //提示暂无数据
+    private Snackbar imgSnackbar;
+    //正在下载的提示
+    private Snackbar loadingSnackBar;
 
 
     @Override
@@ -222,7 +229,9 @@ public class ClassifyActivity extends BaseSwipeActivity {
                     }
                 }, e ->
                 {
-                    SnackbarUtil.getImgSnackbar(my_recycleView, "暂无数据,下啦刷新试试", Snackbar.LENGTH_LONG, ClassifyActivity.this, -1).show();
+                    imgSnackbar = SnackbarUtil.getImgSnackbar(my_recycleView, "暂无数据,下啦刷新试试", Snackbar.LENGTH_INDEFINITE, ClassifyActivity.this, -1);
+
+                    imgSnackbar.show();
                     //如果正在下拉
                     if (swipeRefreshLayout.isRefreshing()) {
 
@@ -237,15 +246,25 @@ public class ClassifyActivity extends BaseSwipeActivity {
                         swipeRefreshLayout.setEnabled(true);
                     }
                     //关闭正在记载的动画
-                    if (dialog!=null&&dialog.isShowing()){
+                    if (dialog != null && dialog.isShowing()) {
                         dialog.dismiss();
+                        if (loadingSnackBar!=null){
+                            loadingSnackBar=null;
+                        }
                     }
-                },() -> {
+                }, () -> {
                     //关闭正在记载的动画
-                    if (dialog!=null&&dialog.isShowing()){
+                    if (dialog != null && dialog.isShowing()) {
                         dialog.dismiss();
+                        if (loadingSnackBar!=null){
+                            loadingSnackBar.dismiss();
+                            loadingSnackBar=null;
+                        }
                     }
 
+                    if (imgSnackbar != null ) {
+                        imgSnackbar.dismiss();
+                    }
                 });
 
             } catch (Exception e) {
@@ -301,11 +320,11 @@ public class ClassifyActivity extends BaseSwipeActivity {
         dialog.show();
         //当dialog 正在显示的时候证明数据没有加载完成 那么用户按下返回键那么直接finish
         dialog.setOnKeyListener((dialogInterface, i, keyEvent) -> {
-            if (i== KeyEvent.KEYCODE_BACK) {
+            if (i == KeyEvent.KEYCODE_BACK) {
                 finish();
-                return  true;
+                return true;
             }
-            return  false;
+            return false;
         });
 
         //展示每个收藏的容器list
@@ -315,6 +334,9 @@ public class ClassifyActivity extends BaseSwipeActivity {
         //下啦交替颜色
         swipeRefreshLayout.setColorSchemeColors(Color.CYAN, Color.BLUE, Color.GREEN);
 
+        //正在下载的提示
+        loadingSnackBar = SnackbarUtil.getImgSnackbar(my_recycleView, "正在下载...", Snackbar.LENGTH_INDEFINITE, this, -1);
+        loadingSnackBar.show();
 
     }
 

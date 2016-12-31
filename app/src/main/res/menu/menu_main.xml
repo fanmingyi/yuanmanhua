@@ -4,7 +4,7 @@
 
     <group android:id="@+id/home">
         <item
-            android:id="@+id/item1"
+            android:id="@+id/menu_home"
             android:icon="@mipmap/homeitem"
             android:title="主页"
             app:showAsAction="always" />
@@ -15,7 +15,7 @@
             app:showAsAction="always" />
 
         <item
-            android:id="@+id/item3"
+            android:id="@+id/menu_search"
             android:icon="@mipmap/searcheitem"
             android:title="搜索"
             app:showAsAction="never" />

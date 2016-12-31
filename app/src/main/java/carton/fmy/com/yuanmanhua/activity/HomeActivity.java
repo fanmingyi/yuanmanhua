@@ -10,11 +10,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import carton.fmy.com.yuanmanhua.R;
 import carton.fmy.com.yuanmanhua.fragment.HomeFragment;
+import carton.fmy.com.yuanmanhua.utils.QuickClick;
 
 /**
  * 主页面的Activity
@@ -101,11 +104,22 @@ public class HomeActivity extends BaseActivity  {
 
         navigationView.setNavigationItemSelectedListener(menuItem -> {
 
+            if (QuickClick.quickClick()) {
+                return false;
+            }
             switch (menuItem.getItemId()){
                 //如果按钮是收藏
                 case R.id.menu_collect:
                     Intent intent = new Intent(HomeActivity.this,CollectActivity.class);
                     startActivity(intent);
+                    return  true;
+                //如果搜索
+                case R.id.menu_search:
+                    Toast.makeText(this, "暂不支持", Toast.LENGTH_SHORT).show();
+                    return  true;
+                //主页
+                case R.id.menu_home:
+                  drawerLayout.closeDrawer(Gravity.LEFT);
                     return  true;
                 //跳转市场去评价
                 case R.id.menu_market:

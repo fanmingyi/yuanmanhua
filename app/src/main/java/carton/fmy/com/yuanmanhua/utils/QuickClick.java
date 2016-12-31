@@ -9,7 +9,7 @@ public class QuickClick {
     public  static boolean quickClick(){
         long now = System.currentTimeMillis();
        //如果用户连续点击在200ms那么返回true
-        if (now-after< 200){
+        if (now-after< 500){
             return  true;
         }
         after =now;
