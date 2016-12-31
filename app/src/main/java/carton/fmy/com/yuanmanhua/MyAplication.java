@@ -5,6 +5,8 @@ import android.app.Application;
 
 import java.util.ArrayList;
 
+import static com.baidu.autoupdatesdk.BDAutoUpdateSDK.silenceUpdateAction;
+
 /**
  * Created by Administrator on 2016/12/20.
  */
@@ -19,7 +21,7 @@ public class MyAplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+         silenceUpdateAction(MyAplication.this);
     }
 
     //推出程序
