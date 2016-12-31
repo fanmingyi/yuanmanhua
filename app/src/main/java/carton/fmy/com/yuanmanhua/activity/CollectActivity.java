@@ -9,14 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemSwipeListener;
-
 import java.util.List;
-
 import carton.fmy.com.yuanmanhua.R;
 import carton.fmy.com.yuanmanhua.adapter.CollectAdapter;
 import carton.fmy.com.yuanmanhua.customview.MyCollectRecyclerView;

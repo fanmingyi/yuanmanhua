@@ -34,6 +34,7 @@ import retrofit2.Response;
  * 展示漫画
  */
 public class ShowActivity extends AppCompatActivity {
+
     //播放器
     ViewPager viewPager;
     //上下文

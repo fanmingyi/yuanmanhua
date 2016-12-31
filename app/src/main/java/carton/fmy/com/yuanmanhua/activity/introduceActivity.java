@@ -140,8 +140,6 @@ public class IntroduceActivity extends BaseSwipeActivity {
         //每个目录的点击事件
         recycler_view.addOnItemTouchListener(onItemChildClickListener);
 
-
-
         //正在加载的dialog
         dialog = DialogUtil.getDialog(this);
         dialog.show();

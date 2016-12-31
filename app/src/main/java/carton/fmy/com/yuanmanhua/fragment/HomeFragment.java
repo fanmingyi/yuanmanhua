@@ -2,7 +2,6 @@ package carton.fmy.com.yuanmanhua.fragment;
 
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.mingle.widget.ShapeLoadingDialog;
 
 import java.util.ArrayList;
 
@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment {
     private HomeItemDragAdapter quickAdapter;
     //一个fragment对应一个snackbar
     private Snackbar snackbar;
-    private Dialog dialog;
+    private ShapeLoadingDialog dialog;
 
 
     public HomeFragment() {
@@ -67,11 +67,21 @@ public class HomeFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
+
+        dialog = new ShapeLoadingDialog(mActivity);
+        dialog.setLoadingText("正在加载...");
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setBackground(Color.TRANSPARENT);
+        dialog.getDialog().getWindow().setDimAmount(0);
+
+        this.dialog.show();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
 
         //获取根布局view
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
@@ -79,6 +89,7 @@ public class HomeFragment extends Fragment {
         recycler_view = ((RecyclerView) rootView.findViewById(R.id.recycler_view));
         //滑动开关
         swipeRefreshLayout = ((WaveSwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout));
+
 
         //初始化滑动
         initSwipe();
@@ -90,7 +101,7 @@ public class HomeFragment extends Fragment {
         //初始化每个漫画的点击事件
         initItemOclick();
 
-        return rootView;
+        return this.rootView;
     }
 
     //初始化每个漫画的点击事件
@@ -149,7 +160,6 @@ public class HomeFragment extends Fragment {
         });
 
 
-
     }
 
 
@@ -185,6 +195,8 @@ public class HomeFragment extends Fragment {
                 homeBeen.addAll(t);
                 quickAdapter.setNewData(homeBeen);
             }
+
+
         }, throwable -> {
             snackbar = SnackbarUtil.getImgSnackbar(getView(), "下载错误,重新刷新试试", Snackbar.LENGTH_INDEFINITE, mActivity, -1);
             snackbar.show();
@@ -201,18 +213,28 @@ public class HomeFragment extends Fragment {
                 quickAdapter.loadMoreFail();
                 swipeRefreshLayout.setEnabled(true);
             }
+            //如果对话存在并且不为空
+            if (dialog != null && dialog.getDialog().isShowing()) {
+                dialog.dismiss();
+            }
+
 
         }, () -> {
 
-            if (snackbar!=null&&snackbar.isShown()){
+            if (snackbar != null && snackbar.isShown()) {
                 snackbar.dismiss();
             }
+
+            //如果对话存在并且不为空
+            if (dialog != null && dialog.getDialog().isShowing()) {
+                dialog.dismiss();
+            }
+
+
         });
 
 
     }
-
-
 
 
 }
