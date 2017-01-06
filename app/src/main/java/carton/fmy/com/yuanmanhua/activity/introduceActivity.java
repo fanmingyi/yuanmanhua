@@ -7,17 +7,20 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.appx.BDInterstitialAd;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.util.List;
+import java.util.Random;
 
 import carton.fmy.com.yuanmanhua.R;
 import carton.fmy.com.yuanmanhua.adapter.CataloguAdapter;
@@ -68,6 +71,8 @@ public class IntroduceActivity extends BaseSwipeActivity {
     //收藏按钮
     private FancyButton btn_collect;
 
+    private BDInterstitialAd interstitialAd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +86,8 @@ public class IntroduceActivity extends BaseSwipeActivity {
         initData();
         //初始化网络下载
         initNet();
-
+        //插屏广告
+        initDb();
     }
 
     private void initOnClick() {
@@ -100,7 +106,74 @@ public class IntroduceActivity extends BaseSwipeActivity {
 
         });
     }
+    boolean flagDb;
+    private static final String TAG = "BaseSwipeActivity";
+    public   void initDb(){
+        //创建插屏广告
+        interstitialAd = new BDInterstitialAd(this, "Oh7FBfBpF3YO7BUGQ8qeHwGl6g2V6U9u",
+                "0NCuYGaUz5aEdQg9z4R2x7TU");
+        interstitialAd.setAdListener(new BDInterstitialAd.InterstitialAdListener() {
+            @Override
+            public void onAdvertisementViewDidHide() {
+                Log.e(TAG, "onAdvertisementViewDidHide: " );
+            }
 
+            @Override
+            public void onAdvertisementDataDidLoadSuccess() {
+              /*插屏广播只显示一次*/
+                if (!flagDb){
+                    flagDb =true;
+                    Random random = new Random();
+                    int i = random.nextInt();
+                   //奇数的时候才用播放广告
+                    if ((i&1)==1){
+                        interstitialAd.showAd();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onAdvertisementDataDidLoadFailure() {
+                Log.e(TAG, "onAdvertisementDataDidLoadFailure: " );
+            }
+
+            @Override
+            public void onAdvertisementViewDidShow() {
+                Log.e(TAG, "onAdvertisementViewDidShow: " );
+            }
+
+            @Override
+            public void onAdvertisementViewDidClick() {
+                Log.e(TAG, "onAdvertisementViewDidClick: " );
+            }
+
+            @Override
+            public void onAdvertisementViewWillStartNewIntent() {
+                Log.e(TAG, "onAdvertisementViewWillStartNewIntent: " );
+            }
+        }); //设置监听回调
+
+
+
+//下载广告， 等待展示
+        if (!interstitialAd.isLoaded()) {
+            interstitialAd.loadAd();
+        }
+
+
+
+
+    };
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        interstitialAd.destroy();
+        interstitialAd = null;
+
+    }
     private void initData() {
         Intent intent = getIntent();
         bookId = intent.getStringExtra("bookId");
@@ -220,6 +293,8 @@ public class IntroduceActivity extends BaseSwipeActivity {
                     if (imgSnackbar!=null&&imgSnackbar.isShown()){
                         imgSnackbar.dismiss();
                     }
+
+
                 }
 
             }
