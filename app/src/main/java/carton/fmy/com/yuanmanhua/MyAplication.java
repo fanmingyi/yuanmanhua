@@ -3,6 +3,8 @@ package carton.fmy.com.yuanmanhua;
 import android.app.Activity;
 import android.app.Application;
 
+import com.baidu.appx.BaiduAppX;
+
 import java.util.ArrayList;
 
 import static com.baidu.autoupdatesdk.BDAutoUpdateSDK.silenceUpdateAction;
@@ -22,6 +24,8 @@ public class MyAplication extends Application {
     public void onCreate() {
         super.onCreate();
          silenceUpdateAction(MyAplication.this);
+        BaiduAppX.version();
+
     }
 
     //推出程序

@@ -5,10 +5,11 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PersistableBundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import com.baidu.appx.BDInterstitialAd;
 
 import carton.fmy.com.yuanmanhua.MyAplication;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
@@ -19,10 +20,14 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
  */
 
 public abstract class BaseSwipeActivity extends SwipeBackActivity {
+
+    private BDInterstitialAd interstitialAd;
+
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         MyAplication.activities.add(this);
+
     }
 
 

@@ -60,4 +60,6 @@ dependencies {
     compile files('libs/BDAutoUpdateSDK_V1.2.0.2.jar')
     compile files('libs/galaxy_lite.jar')
     compile files('libs/patchupdate.jar')
+    compile files('libs/baidu_cuid.jar')
+    compile files('libs/BaiduAppX_V2.4.1_20160530.jar')
 }

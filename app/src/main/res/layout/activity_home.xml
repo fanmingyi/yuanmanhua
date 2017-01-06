@@ -28,14 +28,20 @@
                     android:layout_height="match_parent"
                     android:background="@mipmap/titlebar_big" />
             </LinearLayout>
-            <!--存放fragemnt的容器-->
-            <FrameLayout
-                android:id="@+id/content_fragment"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:id="@+id/rl_content"
+                android:layout_height="0dp">
+                <!--存放fragemnt的容器-->
+                <FrameLayout
+                    android:id="@+id/content_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                  >
+                </FrameLayout>
+            </RelativeLayout>
 
-            </FrameLayout>
         </LinearLayout>
 
         <android.support.design.widget.NavigationView

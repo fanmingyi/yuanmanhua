@@ -13,7 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.baidu.appx.BDBannerAd;
 
 import carton.fmy.com.yuanmanhua.R;
 import carton.fmy.com.yuanmanhua.fragment.HomeFragment;
@@ -42,6 +45,11 @@ public class HomeActivity extends BaseActivity  {
 
     //Fragment管理器
     public FragmentManager supportFragmentManager;
+    //创建并展示广告
+    private BDBannerAd bannerview;
+    //存放广告和每个漫画的容器
+    private RelativeLayout container;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +69,50 @@ public class HomeActivity extends BaseActivity  {
         //初始化所有的fragment
         initFragment();
 
+//        百度广告
+        initDB();
+
     }
+
+    private void initDB() {
+//创建并展示广告
+        bannerview = new BDBannerAd(this, "Oh7FBfBpF3YO7BUGQ8qeHwGl6g2V6U9u",
+                "TlMjIyd8mQmpjmSUglzrG6av");
+        bannerview.setAdSize(BDBannerAd.SIZE_FLEXIBLE); //选择模式
+        bannerview.setAdListener(new BDBannerAd.BannerAdListener() {
+            @Override
+            public void onAdvertisementDataDidLoadSuccess() {
+
+            }
+
+            @Override
+            public void onAdvertisementDataDidLoadFailure() {
+
+            }
+
+            @Override
+            public void onAdvertisementViewDidShow() {
+
+            }
+
+            @Override
+            public void onAdvertisementViewDidClick() {
+
+            }
+
+            @Override
+            public void onAdvertisementViewWillStartNewIntent() {
+
+            }
+        }); // 设置监听回调
+        container = ((RelativeLayout) findViewById(R.id.rl_content));
+
+
+        container.addView(bannerview);
+
+
+    }
+
     //初始化所有的fragment
     private void initFragment() {
         //主页的fragment
@@ -180,5 +231,16 @@ public class HomeActivity extends BaseActivity  {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
        actionBarDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //销毁广告对象
+        container.removeAllViews();
+        bannerview.destroy();
+        bannerview = null;
+
+
     }
 }

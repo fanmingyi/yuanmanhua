@@ -11,19 +11,31 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import carton.fmy.com.yuanmanhua.MyAplication;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
  * Created by 范明毅 on 2016/12/20.
  */
 
 public abstract class BaseActivity  extends AppCompatActivity{
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         MyAplication.activities.add(this);
+
     }
 
+    private static final String TAG = "BaseActivity";
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyAplication.activities.remove(this);
+
+    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
