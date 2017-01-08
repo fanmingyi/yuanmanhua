@@ -10,22 +10,26 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.FrameLayout;
 
+import com.baidu.appx.BDAppWallAd;
 import com.baidu.appx.BDBannerAd;
 
 import carton.fmy.com.yuanmanhua.R;
 import carton.fmy.com.yuanmanhua.fragment.HomeFragment;
 import carton.fmy.com.yuanmanhua.utils.QuickClick;
+import carton.fmy.com.yuanmanhua.utils.ToastUtil;
+
+import static carton.fmy.com.yuanmanhua.MyAplication.checkUpdata;
+import static com.baidu.autoupdatesdk.BDAutoUpdateSDK.cpUpdateCheck;
 
 /**
  * 主页面的Activity
  */
-public class HomeActivity extends BaseActivity  {
+public class HomeActivity extends BaseActivity {
 
 
     //标题栏
@@ -48,7 +52,9 @@ public class HomeActivity extends BaseActivity  {
     //创建并展示广告
     private BDBannerAd bannerview;
     //存放广告和每个漫画的容器
-    private RelativeLayout container;
+    private FrameLayout container;
+    //创建开屏广告
+    private BDAppWallAd appwallAd;
 
 
     @Override
@@ -56,6 +62,9 @@ public class HomeActivity extends BaseActivity  {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
+
+        //检查更新
+        checkUpdata(this);
 
         //实例化控件
         initView();
@@ -69,20 +78,25 @@ public class HomeActivity extends BaseActivity  {
         //初始化所有的fragment
         initFragment();
 
-//        百度广告
+        //百度广告
         initDB();
+
 
     }
 
+
+    private static final String TAG = "HomeActivity";
+
     private void initDB() {
-//创建并展示广告
+    //创建并展示广告
         bannerview = new BDBannerAd(this, "Oh7FBfBpF3YO7BUGQ8qeHwGl6g2V6U9u",
                 "TlMjIyd8mQmpjmSUglzrG6av");
         bannerview.setAdSize(BDBannerAd.SIZE_FLEXIBLE); //选择模式
+
         bannerview.setAdListener(new BDBannerAd.BannerAdListener() {
             @Override
             public void onAdvertisementDataDidLoadSuccess() {
-
+                Log.e(TAG, "onAdvertisementDataDidLoadSuccess: ");
             }
 
             @Override
@@ -105,11 +119,15 @@ public class HomeActivity extends BaseActivity  {
 
             }
         }); // 设置监听回调
-        container = ((RelativeLayout) findViewById(R.id.rl_content));
+        container = ((FrameLayout) findViewById(R.id.fl_content));
 
 
         container.addView(bannerview);
 
+
+        //创建广告墙
+        appwallAd = new BDAppWallAd(HomeActivity.this, "Oh7FBfBpF3YO7BUGQ8qeHwGl6g2V6U9u",
+                "S3Z8HGayhriMjvZ3DMNPre6c");
 
     }
 
@@ -118,10 +136,10 @@ public class HomeActivity extends BaseActivity  {
         //主页的fragment
         homeFragment = new HomeFragment();
 
-       //得到fragement管理器
+        //得到fragement管理器
         supportFragmentManager = getSupportFragmentManager();
         //提交
-        supportFragmentManager.beginTransaction().add(R.id.content_fragment,homeFragment,"homeFragment").commit();
+        supportFragmentManager.beginTransaction().add(R.id.content_fragment, homeFragment, "homeFragment").commit();
 
         supportFragmentManager.popBackStack();
 
@@ -132,7 +150,7 @@ public class HomeActivity extends BaseActivity  {
     private void initItem() {
 
         //抽屉布局开关
-        actionBarDrawerToggle = new ActionBarDrawerToggle(HomeActivity.this,drawerLayout,toolbar,  R.string.drawer_open,R.string.drawer_close){
+        actionBarDrawerToggle = new ActionBarDrawerToggle(HomeActivity.this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -158,35 +176,54 @@ public class HomeActivity extends BaseActivity  {
             if (QuickClick.quickClick()) {
                 return false;
             }
-            switch (menuItem.getItemId()){
+            switch (menuItem.getItemId()) {
                 //如果按钮是收藏
                 case R.id.menu_collect:
-                    Intent intent = new Intent(HomeActivity.this,CollectActivity.class);
+                    Intent intent = new Intent(HomeActivity.this, CollectActivity.class);
                     startActivity(intent);
-                    return  true;
-                //如果搜索
+                    return true;
+                //更新
                 case R.id.menu_search:
-                    Toast.makeText(this, "暂不支持", Toast.LENGTH_SHORT).show();
-                    return  true;
+                    ToastUtil.showLongToast("拉取数据中...");
+                    cpUpdateCheck(HomeActivity.this, (appUpdateInfo, appUpdateInfoForInstall) -> {
+                        if (appUpdateInfo != null) {
+                            checkUpdata(HomeActivity.this);
+                        } else {
+                            ToastUtil.showLongToast("暂无最新数据");
+                        }
+                    });
+
+                    return true;
                 //主页
                 case R.id.menu_home:
-                  drawerLayout.closeDrawer(Gravity.LEFT);
-                    return  true;
+
+                    //如果本地无广告可用， 需要下载广告， 待下次启动使用
+                    if (!appwallAd.isLoaded()) {
+                        ToastUtil.showLongToast("正在备货,请稍后重试...");
+                        appwallAd.loadAd();
+                    }
+                    //展示开屏广告
+                    if (appwallAd.isLoaded()) {
+                        appwallAd.doShowAppWall();
+                    }
+
+                    return true;
                 //跳转市场去评价
                 case R.id.menu_market:
-                    String mAddress ="market://details?id="+getPackageName();
+                    String mAddress = "market://details?id=" + getPackageName();
                     Intent marketIntent = new Intent("android.intent.action.VIEW");
                     marketIntent.setData(Uri.parse(mAddress));
                     startActivity(marketIntent);
-                    return  true;
+                    return true;
                 //如果按钮是点击分类完结类型
                 default:
-                    Intent classifyIntent = new Intent(HomeActivity.this,ClassifyActivity.class);
-                    classifyIntent.putExtra("type",menuItem.getItemId());
+                    Intent classifyIntent = new Intent(HomeActivity.this, ClassifyActivity.class);
+                    classifyIntent.putExtra("type", menuItem.getItemId());
                     startActivity(classifyIntent);
             }
 
-            return false;});
+            return false;
+        });
     }
 
     @Override
@@ -195,6 +232,7 @@ public class HomeActivity extends BaseActivity  {
         //同步左上角 不然就一个箭头不会变化
         actionBarDrawerToggle.syncState();
     }
+
     //监听左上角item 变化
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -225,12 +263,10 @@ public class HomeActivity extends BaseActivity  {
     }
 
 
-
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-       actionBarDrawerToggle.onConfigurationChanged(newConfig);
+        actionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -240,7 +276,9 @@ public class HomeActivity extends BaseActivity  {
         container.removeAllViews();
         bannerview.destroy();
         bannerview = null;
-
+        //销毁广告对象
+//        appwallAd.destroy();
+//        appwallAd = null;
 
     }
 }

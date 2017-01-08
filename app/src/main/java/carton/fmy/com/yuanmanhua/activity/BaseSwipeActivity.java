@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.baidu.appx.BDInterstitialAd;
 
 import carton.fmy.com.yuanmanhua.MyAplication;
+import carton.fmy.com.yuanmanhua.utils.FixInputMethodManagerLeak;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
@@ -69,6 +70,13 @@ public abstract class BaseSwipeActivity extends SwipeBackActivity {
 
         //默认不关闭软键盘
         return  false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyAplication.activities.remove(this);
+        FixInputMethodManagerLeak.fixInputMethodManagerLeak(this);
     }
 
     public void hideSoftInput(IBinder windowToken){

@@ -6,7 +6,7 @@
         <item
             android:id="@+id/menu_home"
             android:icon="@mipmap/homeitem"
-            android:title="主页"
+            android:title="优秀软件推荐"
             app:showAsAction="always" />
         <item
             android:id="@+id/menu_collect"
@@ -16,8 +16,8 @@
 
         <item
             android:id="@+id/menu_search"
-            android:icon="@mipmap/searcheitem"
-            android:title="搜索"
+            android:icon="@mipmap/updataicon"
+            android:title="更新"
             app:showAsAction="never" />
 
     </group>

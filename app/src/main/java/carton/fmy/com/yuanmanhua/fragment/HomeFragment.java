@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.mingle.widget.ShapeLoadingDialog;
 
 import java.util.ArrayList;
 
@@ -23,6 +22,7 @@ import carton.fmy.com.yuanmanhua.R;
 import carton.fmy.com.yuanmanhua.activity.IntroduceActivity;
 import carton.fmy.com.yuanmanhua.adapter.HomeItemDragAdapter;
 import carton.fmy.com.yuanmanhua.bean.HomeBean;
+import carton.fmy.com.yuanmanhua.customview.CustomProgressDialog;
 import carton.fmy.com.yuanmanhua.url.UrlHomeInterface;
 import carton.fmy.com.yuanmanhua.utils.NetUtil;
 import carton.fmy.com.yuanmanhua.utils.SnackbarUtil;
@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment {
     private HomeItemDragAdapter quickAdapter;
     //一个fragment对应一个snackbar
     private Snackbar snackbar;
-    private ShapeLoadingDialog dialog;
+    private CustomProgressDialog dialog;
 
 
     public HomeFragment() {
@@ -67,13 +67,11 @@ public class HomeFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
+//
+        dialog = new CustomProgressDialog(mActivity,"正在加载...",R.drawable.frame2);
 
-        dialog = new ShapeLoadingDialog(mActivity);
-        dialog.setLoadingText("正在加载...");
+        //触摸外部可以关闭 取消
         dialog.setCanceledOnTouchOutside(false);
-        dialog.setBackground(Color.TRANSPARENT);
-        dialog.getDialog().getWindow().setDimAmount(0);
-
         this.dialog.show();
 
     }
@@ -213,8 +211,8 @@ public class HomeFragment extends Fragment {
                 quickAdapter.loadMoreFail();
                 swipeRefreshLayout.setEnabled(true);
             }
-            //如果对话存在并且不为空
-            if (dialog != null && dialog.getDialog().isShowing()) {
+//            //如果对话存在并且不为空
+            if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
             }
 
@@ -226,11 +224,9 @@ public class HomeFragment extends Fragment {
             }
 
             //如果对话存在并且不为空
-            if (dialog != null && dialog.getDialog().isShowing()) {
+            if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
             }
-
-
         });
 
 

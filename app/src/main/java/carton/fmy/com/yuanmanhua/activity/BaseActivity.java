@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import carton.fmy.com.yuanmanhua.MyAplication;
+import carton.fmy.com.yuanmanhua.utils.FixInputMethodManagerLeak;
 
 /**
  * Created by 范明毅 on 2016/12/20.
@@ -34,7 +35,7 @@ public abstract class BaseActivity  extends AppCompatActivity{
     protected void onDestroy() {
         super.onDestroy();
         MyAplication.activities.remove(this);
-
+        FixInputMethodManagerLeak.fixInputMethodManagerLeak(this);
     }
 
     @Override
